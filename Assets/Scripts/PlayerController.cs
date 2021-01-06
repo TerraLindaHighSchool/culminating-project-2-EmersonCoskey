@@ -57,16 +57,36 @@ public class PlayerController : MonoBehaviour
         hasPowerup = false;
         powerupIndicator.gameObject.SetActive(false);
     }*/
-    private float movementSpeed;
+    public float jumpHeight;
+
     private Rigidbody rb;
+    private Animator anim;
+    private Quaternion interpolatedRotation;
+    private Quaternion interpolationTarget;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+    }
+
+    private void Update() {
+        interpolatedRotation = Quaternion.Lerp(transform.rotation, interpolationTarget, 0.05f);
+        transform.rotation = interpolatedRotation;
     }
 
     private void OnMove(InputValue movementValue)
     {
-        
+        Vector2 input = movementValue.Get<Vector2>();
+        Vector3 movementVector = new Vector3(input.x, 0, input.y);
+
+        anim.SetFloat("Speed_f", movementVector.magnitude);
+        if(movementVector.magnitude > 0) interpolationTarget = Quaternion.LookRotation(movementVector, Vector3.up);
+        Debug.DrawRay(transform.position, movementVector * 10, Color.red);
+    }
+
+    private void OnJump()
+    {
+        anim.SetTrigger("Jump_trig");
     }
 }

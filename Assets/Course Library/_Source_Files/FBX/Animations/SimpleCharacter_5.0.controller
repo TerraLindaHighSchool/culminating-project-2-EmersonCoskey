@@ -11,7 +11,7 @@ AnimatorController:
   m_AnimatorParameters:
   - m_Name: Speed_f
     m_Type: 1
-    m_DefaultFloat: 1
+    m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
@@ -73,7 +73,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Head_Horizontal_f
     m_Type: 1
@@ -5052,7 +5052,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 3
     m_ConditionEvent: Speed_f
-    m_EventTreshold: 0.25
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110261631}
   m_Solo: 0
@@ -7000,7 +7000,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Run_Static
-  m_Speed: 2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 110100941}
@@ -7497,7 +7497,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Running_Jump
-  m_Speed: 0.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 110126729}
@@ -8279,16 +8279,16 @@ AnimatorStateMachine:
     m_Position: {x: -108, y: -360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110261631}
-    m_Position: {x: 144, y: -192, z: 0}
+    m_Position: {x: 140, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110255762}
     m_Position: {x: 144, y: -48, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110250891}
-    m_Position: {x: -336, y: -192, z: 0}
+    m_Position: {x: -340, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110246782}
-    m_Position: {x: -336, y: -48, z: 0}
+    m_Position: {x: -330, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110264428}
     m_Position: {x: -108, y: -456, z: 0}
