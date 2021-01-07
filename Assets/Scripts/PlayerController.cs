@@ -82,7 +82,6 @@ public class PlayerController : MonoBehaviour
 
         anim.SetFloat("Speed_f", movementVector.magnitude);
         if(movementVector.magnitude > 0) interpolationTarget = Quaternion.LookRotation(movementVector, Vector3.up);
-        Debug.DrawRay(transform.position, movementVector * 10, Color.red);
     }
 
     private void OnJump()
