@@ -58,11 +58,17 @@ public class PlayerController : MonoBehaviour
         powerupIndicator.gameObject.SetActive(false);
     }*/
     public float jumpHeight;
+    public float kickForce;
+
+    private GameObject ball;
+    private Rigidbody ballRb;
+    private SphereCollider ballCollider;
 
     private Rigidbody rb;
     private Animator anim;
     private Quaternion interpolatedRotation;
     private Quaternion interpolationTarget;
+    private float lookDir;
 
     private void Start()
     {
@@ -87,5 +93,36 @@ public class PlayerController : MonoBehaviour
     private void OnJump()
     {
         anim.SetTrigger("Jump_trig");
+        rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+    }
+
+    private void OnKick()
+    {
+        Debug.Log("stuff");
+        Debug.Log(transform.Find("Ball"));
+        if (transform.Find("Ball") != null)
+        {
+            ball.transform.parent = null;
+            ballRb.isKinematic = false;
+            ballRb.AddForce((ball.transform.position - transform.position) * kickForce, ForceMode.Impulse);
+
+            ballCollider.enabled = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.gameObject.CompareTag("Ball"))
+        {
+            ball = collision.collider.gameObject;
+            ball.transform.parent = gameObject.transform;
+            ball.transform.position = transform.position + transform.forward * 2;
+
+            ballRb = ball.GetComponent<Rigidbody>();
+            ballRb.isKinematic = true;
+
+            ballCollider = ball.GetComponent<SphereCollider>();
+            ballCollider.enabled = false;
+        }
     }
 }
