@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Ball
   - Goal
+  - Floor
+  - Exit
   layers:
   - Default
   - TransparentFX
