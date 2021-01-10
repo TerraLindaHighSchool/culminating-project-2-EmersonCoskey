@@ -14,11 +14,12 @@ public class BallImpactController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && rb.velocity.magnitude > 10.0f)
+        if (collision.gameObject.CompareTag("Enemy") && rb.velocity.magnitude > 6.0f)
         {
             Rigidbody EnemyRb = collision.gameObject.GetComponent<Rigidbody>();
 
             EnemyRb.AddForce(rb.velocity * hitForceMultiplier, ForceMode.Impulse);
+            rb.velocity = rb.velocity * 0.1f;
         }
     }
 }
