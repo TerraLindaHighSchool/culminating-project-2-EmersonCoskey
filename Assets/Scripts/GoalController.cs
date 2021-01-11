@@ -5,28 +5,43 @@ using UnityEngine;
 public class GoalController : MonoBehaviour
 {
     public Vector3 target;
-    public GameController gameController;
-    
-    private void OnTriggerStay(Collision collision)
-    {
-        Rigidbody otherRb = collision.gameObject.GetComponent<Rigidbody>();
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            otherRb.AddForce(otherRb.velocity * -0.2f, ForceMode.VelocityChange);
-            otherRb.AddTorque(otherRb.angularVelocity * -0.2f, ForceMode.VelocityChange);
-        }
+    public GameObject gameControllerObject;
 
-        if (collision.gameObject.CompareTag("ball"))
+    private GameController gameController;
+
+    private void Start()
+    {
+        gameController = gameControllerObject.GetComponent<GameController>();
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.transform.position = new Vector3(0, 4, 0);
+            gameController.Score(collider.gameObject);
         }
     }
 
-    private void OnTriggerExit(Collision collision)
+    void OnTriggerStay(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        Rigidbody otherRb = collider.gameObject.GetComponent<Rigidbody>();
+        if (collider.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.transform.position = target;
+            otherRb.AddForce(otherRb.velocity * -0.05f, ForceMode.VelocityChange);
+            otherRb.AddTorque(otherRb.angularVelocity * -0.05f, ForceMode.VelocityChange);
+        }
+
+        if (collider.gameObject.CompareTag("Ball"))
+        {
+            collider.gameObject.transform.position = new Vector3(0, 4, 0);
+        }
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.CompareTag("Enemy"))
+        {
+            collider.gameObject.transform.position = target;
         }
     }
 }

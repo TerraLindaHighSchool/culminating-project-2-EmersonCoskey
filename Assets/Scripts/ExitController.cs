@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ExitController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject gameControllerObject;
+    private GameController gameController;
+
+    private void Start()
     {
-        
+        gameController = gameControllerObject.GetComponent<GameController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider collider)
     {
-        
+        if (collider.gameObject.CompareTag("Enemy"))
+        {
+            gameController.Escape(collider.gameObject);
+        }
     }
+
 }
