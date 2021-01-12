@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public int maxEnemies;
 
     public GameObject enemyPrefab;
+    public GameObject powerupPrefab;
     public Vector3 spawnMin;
     public Vector3 spawnMax;
 
@@ -35,6 +36,8 @@ public class GameController : MonoBehaviour
     {
         if (enemy.CompareTag("Enemy"))
         {
+            Enemy enemyController = enemy.GetComponent<Enemy>();
+            enemyController.Die();
             rage += scoreValue;
             escapes++;
         }
@@ -44,6 +47,7 @@ public class GameController : MonoBehaviour
     {
         if (enemy.CompareTag("Enemy"))
         {
+            Destroy(enemy);
             rage += escapeValue;
             escapes++;
         }
@@ -51,13 +55,20 @@ public class GameController : MonoBehaviour
 
     void SpawnEnemies()
     {
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemies)
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length <= maxEnemies)
         {
             float x = Random.Range(spawnMin.x, spawnMax.x);
             float y = Random.Range(spawnMin.y, spawnMax.y);
             float z = Random.Range(spawnMin.z, spawnMax.z);
 
-            Instantiate(enemyPrefab, new Vector3(x, y, z), Quaternion.Euler(0, 180, 0));
+            if (Random.Range(0, 5) > 0)
+            {
+                Instantiate(enemyPrefab, new Vector3(x, y, z), Quaternion.Euler(0, 180, 0));
+            }
+            else if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0)
+            {
+                Instantiate(powerupPrefab, new Vector3(x, y, z), Quaternion.Euler(0, 0, 0));
+            }
         }
     }
 

@@ -18,7 +18,6 @@ public class GoalController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Enemy"))
         {
-            collider.gameObject.GetComponent<Enemy>().Die();
             gameController.Score(collider.gameObject);
         }
     }
@@ -38,7 +37,7 @@ public class GoalController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider collider)
+    private void OnTriggerExit(Collider collider)
     {
         if (collider.gameObject.CompareTag("Enemy"))
         {

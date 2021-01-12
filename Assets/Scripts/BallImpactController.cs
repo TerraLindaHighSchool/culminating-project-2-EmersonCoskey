@@ -6,12 +6,28 @@ public class BallImpactController : MonoBehaviour
 {
     public float hitForceMultiplier;
     public float minSpeed;
+    public float powerupDuration;
     private Rigidbody rb;
     private bool isPowerupActive;
+    private Vector3 originalScale;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        originalScale = transform.localScale;
+    }
+
+    private void Update()
+    {
+        if (isPowerupActive)
+        {
+            transform.localScale = Vector3.Slerp(transform.localScale, originalScale * 3.0f, 0.05f);
+        }
+        else
+        {
+            transform.localScale = Vector3.Slerp(transform.localScale, originalScale, 0.05f);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -29,9 +45,23 @@ public class BallImpactController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.CompareTag("Enemy"))
-        { 
-            
+        if (collider.gameObject.CompareTag("Powerup"))
+        {
+            isPowerupActive = true;
+            rb.AddForce(Vector3.up * 2, ForceMode.Impulse);
+            Destroy(collider.gameObject);
+            StartCoroutine("WaitForPowerupCooldown");
         }
+    }
+
+    IEnumerator WaitForPowerupCooldown()
+    {
+        yield return new WaitForSeconds(12);
+        isPowerupActive = false;
+    }
+
+    public bool GetIsPowerupActive()
+    {
+        return isPowerupActive;
     }
 }

@@ -63,7 +63,9 @@ public class PlayerController : MonoBehaviour
         {
             ball.transform.parent = null;
             ballRb.isKinematic = false;
-            ballRb.AddForce((ball.transform.position - transform.position) * kickForce, ForceMode.Impulse);
+            Vector3 kickVector = (ball.transform.position - transform.position) * kickForce;
+            kickVector.y = -0.25f;
+            ballRb.AddForce(kickVector, ForceMode.Impulse);
 
             ballCollider.enabled = true;
         }
@@ -86,8 +88,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ball"))
         {
             ball = collision.gameObject;
+            BallImpactController ballController = ball.GetComponent<BallImpactController>();
+            bool isPowerupActive = ballController.GetIsPowerupActive();
+
             ball.transform.parent = gameObject.transform;
-            ball.transform.position = transform.position + transform.forward * 1.5f + transform.up * -1;
+            ball.transform.position = (transform.position + transform.forward * (isPowerupActive ? 3 : 1.5f) + transform.up * (isPowerupActive ? 2 : -1));
 
             ballRb = ball.GetComponent<Rigidbody>();
             ballRb.isKinematic = true;
