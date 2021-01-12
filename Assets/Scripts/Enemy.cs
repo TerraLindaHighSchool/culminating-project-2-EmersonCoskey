@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public float maxSpeed;
     public int ragDollDuration;
+    public int deathDelay;
 
     private Rigidbody rb;
     private GameObject player;
@@ -40,7 +41,7 @@ public class Enemy : MonoBehaviour
         }
         else if (isRagDoll)
         {
-            anim.SetFloat("Speed_f", Mathf.Lerp(anim.GetFloat("Speed_f"), 0, 0.1f));
+            anim.SetFloat("Speed_f", Mathf.Lerp(anim.GetFloat("Speed_f"), 0, 0.2f));
         }
         
     }
@@ -69,7 +70,7 @@ public class Enemy : MonoBehaviour
 
     private void StandUp()
     {
-        Quaternion newRotation = Quaternion.Lerp(transform.rotation, startRotation, 0.01f);
+        Quaternion newRotation = Quaternion.Lerp(transform.rotation, startRotation, 0.1f);
         transform.rotation = newRotation;
     }
 
@@ -77,5 +78,17 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(ragDollDuration);
         isRagDoll = false;
+    }
+
+    public void Die()
+    {
+        RagDoll();
+        StartCoroutine(WaitForExplode());
+    }
+
+    IEnumerator WaitForExplode()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 }

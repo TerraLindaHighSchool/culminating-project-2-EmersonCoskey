@@ -18,6 +18,7 @@ public class GoalController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Enemy"))
         {
+            collider.gameObject.GetComponent<Enemy>().Die();
             gameController.Score(collider.gameObject);
         }
     }

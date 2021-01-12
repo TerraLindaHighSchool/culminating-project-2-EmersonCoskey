@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public float jumpHeight;
     public float kickForce;
+    public float kickCoolDown;
     public float movementSpeed;
 
     private GameObject ball;
@@ -18,11 +20,16 @@ public class PlayerController : MonoBehaviour
     private Vector3 interpolatedVector;
     private Vector3 interpolationTarget;
     private bool isOnGround;
+    private bool kickIsActive;
+
+    private Predicate<GameObject> isEnemyKickable;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = transform.Find("RefereeMesh").gameObject.GetComponent<Animator>();
+        isEnemyKickable = canKick;
+        kickIsActive = true;
     }
 
     private void Update() {
@@ -52,8 +59,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnKick()
     {
-        Debug.Log("stuff");
-        Debug.Log(transform.Find("Ball"));
         if (transform.Find("Ball") != null)
         {
             ball.transform.parent = null;
@@ -61,6 +66,18 @@ public class PlayerController : MonoBehaviour
             ballRb.AddForce((ball.transform.position - transform.position) * kickForce, ForceMode.Impulse);
 
             ballCollider.enabled = true;
+        }
+        else if (kickIsActive)
+        {
+            GameObject[] enemies = Array.FindAll(GameObject.FindGameObjectsWithTag("Enemy"), canKick);
+            foreach (GameObject enemy in enemies)
+            {
+                Rigidbody enemyRb = enemy.GetComponent<Rigidbody>();
+                Enemy enemyController = enemy.GetComponent<Enemy>();
+                enemyController.RagDoll();
+                enemyRb.AddForce((enemy.transform.position - transform.position) * kickForce * 5, ForceMode.Impulse);
+            }
+            StartCoroutine("WaitForKickCooldown");
         }
     }
 
@@ -85,5 +102,21 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")) isOnGround = false;
+    }
+
+    private bool canKick(GameObject obj)
+    {
+        if (!obj.CompareTag("Enemy")) return false;
+
+        Vector3 objDist = obj.transform.position - transform.position;
+        float rotToObj = Vector3.Angle(transform.forward, objDist);
+        return objDist.magnitude <= 5 && rotToObj <= 60;
+    }
+
+    IEnumerator WaitForKickCooldown()
+    {
+        kickIsActive = false;
+        yield return new WaitForSeconds(kickCoolDown);
+        kickIsActive = true;
     }
 }

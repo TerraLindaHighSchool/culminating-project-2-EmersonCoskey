@@ -1117,6 +1117,11 @@ PrefabInstance:
       propertyPath: hitForceMultiplier
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: -64891405270083832, guid: e72809ddf88f8b7459e0d51040451632,
+        type: 3}
+      propertyPath: minSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1878455563, guid: e72809ddf88f8b7459e0d51040451632, type: 3}
       propertyPath: m_Radius
       value: 0.625
@@ -1198,6 +1203,11 @@ PrefabInstance:
         type: 3}
       propertyPath: kickForce
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6682727353989808850, guid: fd356a09a2869ae42a2eb0c23688e780,
+        type: 3}
+      propertyPath: kickCoolDown
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6682727353989808851, guid: fd356a09a2869ae42a2eb0c23688e780,
         type: 3}

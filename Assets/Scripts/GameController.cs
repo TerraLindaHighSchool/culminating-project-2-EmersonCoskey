@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public Vector3 spawnMin;
     public Vector3 spawnMax;
 
-    private float rage;
+    public float rage;
     private int goals;
     private int escapes;
 
@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
             float y = Random.Range(spawnMin.y, spawnMax.y);
             float z = Random.Range(spawnMin.z, spawnMax.z);
 
-            Instantiate(enemyPrefab, new Vector3(x, y, z), Quaternion.Euler(0, 0, 0));
+            Instantiate(enemyPrefab, new Vector3(x, y, z), Quaternion.Euler(0, 180, 0));
         }
     }
 
