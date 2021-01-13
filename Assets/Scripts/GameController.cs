@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class GameController : MonoBehaviour
     public float rage;
     private int goals;
     private int escapes;
+
+
 
     void Start()
     {
@@ -90,5 +94,10 @@ public class GameController : MonoBehaviour
     public float GetEscapes()
     {
         return escapes;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

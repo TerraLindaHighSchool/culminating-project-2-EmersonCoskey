@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
                 Rigidbody enemyRb = enemy.GetComponent<Rigidbody>();
                 Enemy enemyController = enemy.GetComponent<Enemy>();
                 enemyController.RagDoll();
-                enemyRb.AddForce((enemy.transform.position - transform.position) * kickForce * 5, ForceMode.Impulse);
+                enemyRb.AddForce(transform.forward * kickForce * 15, ForceMode.Impulse);
             }
             StartCoroutine("WaitForKickCooldown");
         }
