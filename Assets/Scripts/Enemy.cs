@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     private GameObject target;
     private bool isRagDoll;
     private Quaternion startRotation;
+    private ParticleSystem explosionParticles;
+    private AudioSource explodeSound;
 
     void Start()
     {
@@ -22,6 +24,8 @@ public class Enemy : MonoBehaviour
         player = GameObject.Find("Referee");
         target = GameObject.Find("Exit");
         anim = transform.Find("EnemyMesh").gameObject.GetComponent<Animator>();
+        explodeSound = GetComponent<AudioSource>();
+        explosionParticles = transform.Find("FX_Explosion_Smoke").GetComponent<ParticleSystem>();
 
         anim.SetFloat("Speed_f", Mathf.Lerp(anim.GetFloat("Speed_f"), maxSpeed, 0.1f));
         startRotation = transform.rotation;
@@ -82,7 +86,9 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        RagDoll();
+        anim.SetBool("Death_b", true);
+        explosionParticles.Play();
+        explodeSound.Play();
         StartCoroutine(WaitForExplode());
     }
 

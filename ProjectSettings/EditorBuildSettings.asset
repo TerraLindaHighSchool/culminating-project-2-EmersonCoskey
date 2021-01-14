@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TheRefIsNotOkay.unity
+    guid: 2f37b541a6d45c24699ead4ac23b0865
   m_configObjects: {}

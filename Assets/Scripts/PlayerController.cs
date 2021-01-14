@@ -14,11 +14,13 @@ public class PlayerController : MonoBehaviour
     private GameObject ball;
     private Rigidbody ballRb;
     private SphereCollider ballCollider;
+    private ParticleSystem explosionParticles;
 
     private Rigidbody rb;
     private Animator anim;
     private Vector3 interpolatedVector;
     private Vector3 interpolationTarget;
+    private AudioSource explodeSound;
     private bool isOnGround;
     private bool kickIsActive;
 
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = transform.Find("RefereeMesh").gameObject.GetComponent<Animator>();
+        explosionParticles = transform.Find("FX_Explosion_Smoke").GetComponent<ParticleSystem>();
+        explodeSound = GetComponent<AudioSource>();
         isEnemyKickable = canKick;
         kickIsActive = true;
     }
@@ -123,5 +127,12 @@ public class PlayerController : MonoBehaviour
         kickIsActive = false;
         yield return new WaitForSeconds(kickCoolDown);
         kickIsActive = true;
+    }
+
+    public void Die()
+    {
+        anim.SetBool("Death_b", true);
+        explosionParticles.Play();
+        explodeSound.Play();
     }
 }
